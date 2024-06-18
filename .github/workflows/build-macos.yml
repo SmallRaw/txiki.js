@@ -1,0 +1,35 @@
+name: Build-MacOS
+
+on: workflow_dispatch
+
+jobs:
+  build-macos:
+    name: macOS
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        buildType: [Release]
+        # macos-13 Intel
+        # macos-14 Apple Silicon
+        os: [macOS-14, macos-13]
+    env:
+      BUILDTYPE: ${{ matrix.buildType }}
+    steps:
+      - name: Install automake
+        run: brew install automake autoconf libtool texinfo
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Build it
+        run: make VERBOSE=1
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-${{ matrix.buildType }}-${{ matrix.os }}
+          path: |
+            ./build/tjs
+            ./build/txiki
