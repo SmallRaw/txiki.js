@@ -1,6 +1,28 @@
 name: Build-MacOS
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      with-websocket:
+        description: "Should it build with WebSocket API support"
+        required: false
+        default: "true"
+      with-storage:
+        description: "Should it build with Storage API support"
+        required: false
+        default: "true"
+      with-wasm:
+        description: "Should it build with WebAssembly support"
+        required: false
+        default: "true"
+      with-mimalloc:
+        description: "Should it build with Mimalloc support, it's faster but uses more memory"
+        required: false
+        default: "true"
+      use-external-ffi:
+        description: "Should it use the external FFI library"
+        required: false
+        default: "false"
 
 jobs:
   build-macos:
@@ -24,6 +46,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Configure with CMake
+        run: >
+          cmake -B build 
+          -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} 
+          -DBUILD_WITH_STORAGE=${{ (inputs.with-storage == 'true') && 'ON' || 'OFF' }} 
+          -DBUILD_WITH_WASM=${{ (inputs.with-wasm == 'true') && 'ON' || 'OFF' }} 
+          -DBUILD_WITH_MIMALLOC=${{ (inputs.with-mimalloc == 'true') && 'ON' || 'OFF' }} 
+          -DBUILD_WITH_WEBSOCKET=${{ (inputs.with-websocket == 'true') && 'ON' || 'OFF' }}
+          -DUSE_EXTERNAL_FFI=${{ (inputs.use-external-ffi == 'true') && 'ON' || 'OFF' }}
       - name: Build it
         run: make VERBOSE=1
       - name: Upload build artifacts
