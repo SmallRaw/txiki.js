@@ -25,14 +25,18 @@
 #include "bundles/c/stdlib/assert.c"
 #include "bundles/c/stdlib/ffi.c"
 #include "bundles/c/stdlib/getopts.c"
+#ifdef TJS_HAVE_HASHING
 #include "bundles/c/stdlib/hashing.c"
+#endif
 #include "bundles/c/stdlib/ipaddr.c"
 #include "bundles/c/stdlib/path.c"
 #include "bundles/c/stdlib/posix-socket.c"
 #ifdef TJS_HAVE_SQLITE
 #include "bundles/c/stdlib/sqlite.c"
 #endif
+#ifdef TJS_HAVE_UUID
 #include "bundles/c/stdlib/uuid.c"
+#endif
 #include "private.h"
 
 
@@ -46,7 +50,9 @@ static tjs_builtin_t builtins[] = {
     { "tjs:assert", tjs__assert, sizeof(tjs__assert) },
     { "tjs:ffi", tjs__ffi, sizeof(tjs__ffi) },
     { "tjs:getopts", tjs__getopts, sizeof(tjs__getopts) },
+#ifdef TJS_HAVE_HASHING
     { "tjs:hashing", tjs__hashing, sizeof(tjs__hashing) },
+#endif
     { "tjs:ipaddr", tjs__ipaddr, sizeof(tjs__ipaddr) },
     { "tjs:path", tjs__path, sizeof(tjs__path) },
     { "tjs:posix-socket", tjs__posix_socket, sizeof(tjs__posix_socket) },

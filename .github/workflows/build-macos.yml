@@ -19,6 +19,10 @@ on:
         description: "Should it build with Mimalloc support, it's faster but uses more memory"
         required: false
         default: "true"
+      with-hashing:
+        description: "Should it build with Hashing support"
+        required: false
+        default: "true"
       use-external-ffi:
         description: "Should it use the external FFI library"
         required: false
@@ -55,6 +59,7 @@ jobs:
           -DBUILD_WITH_MIMALLOC=${{ (inputs.with-mimalloc == 'true') && 'ON' || 'OFF' }} 
           -DBUILD_WITH_WEBSOCKET=${{ (inputs.with-websocket == 'true') && 'ON' || 'OFF' }}
           -DUSE_EXTERNAL_FFI=${{ (inputs.use-external-ffi == 'true') && 'ON' || 'OFF' }}
+          -DBUILD_WITH_HASHING=${{ (inputs.with-hashing == 'true') && 'ON' || 'OFF' }}
       - name: Build it
         run: make VERBOSE=1
       - name: Upload build artifacts

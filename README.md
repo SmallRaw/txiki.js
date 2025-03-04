@@ -123,6 +123,13 @@ The following modules compose the standard library:
 
 ## Building
 
+cmake -B build
+          -DBUILD_WITH_STORAGE=OFF
+          -DBUILD_WITH_WASM=OFF
+          -DBUILD_WITH_MIMALLOC=ON
+          -DBUILD_WITH_WEBSOCKET=OFF
+          -DBUILD_WITH_HASHING=OFF
+
 [CMake] is necessary.
 
 *NOTE:* The txiki.js build depends on a number of git submodules ([libffi], [libuv] and [wasm3]).

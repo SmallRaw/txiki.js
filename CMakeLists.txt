@@ -53,6 +53,7 @@ cpr_option(USE_EXTERNAL_FFI "Specify to use external ffi dependency" OFF)
 cpr_option(BUILD_WITH_STORAGE "If ON (default), build with Storage support" ON)
 cpr_option(BUILD_WITH_WASM "If ON (default), build with WebAssembly support" ON)
 cpr_option(BUILD_WITH_WEBSOCKET "If ON (default), build with WebSocket support" ON)
+cpr_option(BUILD_WITH_HASHING "If ON (default), build with Hashing support" ON)
 
 # Add a compilation definition, whether the option is on or off
 if(BUILD_WITH_STORAGE)
@@ -65,6 +66,10 @@ endif()
 
 if(BUILD_WITH_WEBSOCKET)
     add_definitions(-DTJS_HAVE_WEBSOCKET)
+endif()
+
+if(BUILD_WITH_HASHING)
+    add_definitions(-DTJS_HAVE_HASHING)
 endif()
 
 add_subdirectory(deps/quickjs EXCLUDE_FROM_ALL)
